@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en-US" style="--plyr-color-main: #479059">
+  <head>
+    <meta charset="UTF-8">
+    <title>Soltivo</title>
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="sitemap" href="https://www.mixo.io/site/soltivo-q9aly/sitemap.xml">
+    <link rel="icon" href="https://storage.googleapis.com/mixo-sites/images/file-e0c6def3-04cb-4dd0-b858-b5d8849b8580.jpeg">
+    <meta name="description" content="Soltivo - El futuro de la energía agrovoltaica. Únete a la transición energética justa">
+    <meta property="og:url" content="https://www.mixo.io/site/soltivo-q9aly">
+    <meta property="og:title" content="Soltivo">
+    <meta property="og:site_name" content="Soltivo">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="Soltivo - El futuro de la energía agrovoltaica. Únete a la transición energética justa">
+    <meta property="og:image" content="https://storage.googleapis.com/mixo-sites/images/file-a64030d5-32d9-42da-900e-4f1c3b7c6860.PNG">
+    <meta property="og:image:alt" content="Soltivo">
+    <meta property="twitter:url" content="https://www.mixo.io/site/soltivo-q9aly">
+    <meta property="twitter:title" content="Soltivo">
+    <meta property="twitter:description" content="Soltivo - El futuro de la energía agrovoltaica. Únete a la transición energética justa">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:image:src" content="https://storage.googleapis.com/mixo-sites/images/file-a64030d5-32d9-42da-900e-4f1c3b7c6860.PNG">
+    <meta property="generator" content="îles">
+    <link rel="stylesheet" href="https://www.mixo.io/site/soltivo-q9aly/assets/style-8c29185d.css">
+    <link rel="modulepreload" href="https://www.mixo.io/site/soltivo-q9aly/assets/iles.54b00b61.js" crossorigin />
+    <link rel="modulepreload" href="/site/soltivo-q9aly/assets/vendor-vue.398eccbf.js" crossorigin />
+    <link rel="modulepreload" href="/site/soltivo-q9aly/assets/SignupForm.91cf0870.js" crossorigin />
+    <link rel="modulepreload" href="/site/soltivo-q9aly/assets/UiButton.cab407b3.js" crossorigin />
+    <link rel="modulepreload" href="/site/soltivo-q9aly/assets/vite.c27b6911.js" crossorigin />
+    <link rel="modulepreload" href="/site/soltivo-q9aly/assets/ScriptLoader.5b0e7281.js" crossorigin />
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      .field {
+        display: none;
+      }
+
+      #formulario {
+        font-size: 20px !important;
+      }
+
+      #formulario select {
+        font-size: 20px !important;
+      }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script>
+        let data = {};
+        let visibleFields = [];
+        function animateIn(selector) {
+          if (visibleFields.includes($(selector).find(".use-for-data").attr("id"))) {
+            $(selector).show();
+          } else {
+            $(selector).fadeIn();
+          }
+        }
+        function numberWithCommas(x) {
+            return x.replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+        $( document ).ready(function() {
+            $(".show-always").show();
+            $("#submit_email_button").on("click", function() {
+              $("#email_sent").show();
+              $("#email_sent").addClass("show");
+              $(".show-success > .row").hide();
+            });
+            $(".use-for-data").on("change keyup", function() {
+                // Update the data dictionary.
+                data[$(this).attr("id")] = $(this).val();
+
+                // Store which fields we visible before.
+                visibleFields = [];
+                $(".field").each(function() {
+                  if ($(this).is(":visible")) {
+                    visibleFields.push($(this).find(".use-for-data").attr("id"));
+                  }
+                  $(this).hide();
+                });
+
+                $(".show-always").show();
+                $("#email_sent").hide();
+                $("#email_sent").removeClass("show");
+                $(".show-success > .row").show();
+                if (data["explotacion"] == "ganaderia") {
+                    animateIn(".show-ganaderia");
+                    if (data["ganaderia"] == "ovino" || data["ganaderia"] == "porcino") {
+                        animateIn(".show-ganaderia-1");
+                        if (data["metros-cuadrados"]) {
+                        if (data["metros-cuadrados"] < 1 || data["metros-cuadrados"] > 10) {
+                          animateIn(".show-error");
+                        } else {
+                          animateIn(".show-success");
+                          let num = (11224*data["metros-cuadrados"] + 18061).toFixed(1);
+                          let time = (-0.151*data["metros-cuadrados"] + 6.6224).toFixed(1);
+                          $("#price").text(numberWithCommas(num.toString()) + " €");
+                          $("#time").text(numberWithCommas(time.toString()) + " años");
+                        }
+                      }
+                    } else if (data["ganaderia"] == "bobino" || data["ganaderia"] == "caprino") {
+                        animateIn(".show-error");
+                    }
+                } else if (data["explotacion"] == "agricultura") {
+                    animateIn(".show-agricultura");
+                    if (data["agricultura"] == "regadio") {
+                        animateIn(".show-agricultura-1");
+                        if (data["metros-cuadrados"]) {
+                          if (data["metros-cuadrados"] < 1 || data["metros-cuadrados"] > 10) {
+                            animateIn(".show-error");
+                          } else {
+                          animateIn(".show-success");
+                          let num = (11224*data["metros-cuadrados"] + 18061).toFixed(1);
+                          let time = (-0.151*data["metros-cuadrados"] + 6.6224).toFixed(1);
+                          $("#price").text(numberWithCommas(num.toString()) + " €");
+                          $("#time").text(numberWithCommas(time.toString()) + " años");
+                          }
+                        }
+                    } else if (data["agricultura"] == "secano") {
+                        animateIn(".show-error");
+                    }
+                }
+            });
+        });
+    </script>
+
+  </head>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <div id="app">
+      <div>
+        <div class="site-content bg-white overflow-hidden" data-testid="site-content">
+          <section id="1w7q8idzjh" class="pt-8 overflow-hidden sm:pt-12 lg:relative lg:py-24 xl:py-36 2xl:py-48" sectionname="hero" imagestretch="true" sectioncomponent="Hero" sortorder="0">
+            <div class="max-w-md px-4 mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-24">
+              <div class="relative z-[1]">
+                <a href="https://www.mixo.io/site/soltivo-q9aly" class="flex items-center space-x-3">
+                  <img class="w-auto h-16" src="https://storage.googleapis.com/mixo-sites/images/file-e0c6def3-04cb-4dd0-b858-b5d8849b8580.jpeg" alt="Soltivo logo">
+                  <p class="font-sans font-bold text-gray-900 sr-only text-4xl">Soltivo</p>
+                </a>
+                <div class="mt-14">
+                  <div class="mt-6 sm:max-w-xl">
+                    <h1 class="text-4xl font-black tracking-tight text-gray-900 sm:text-6xl md:text-7xl">Soltivo <span class="text-primary">.</span>
+                    </h1>
+                    <h2 class="mt-6 text-lg text-gray-500 sm:text-xl">El futuro de la energía agrovoltaica</h2>
+                  </div>
+                  <div class="mt-10 space-y-4">
+                    <p class="text-sm text-gray-400">Únete a la eficiencia</p>
+                    <ile-root id="ile-1" class="mt-4 sm:max-w-lg">
+                      <form class="grid gap-2 grid-cols-1 sm:w-full sm:flex sm:items-center sm:flex-wrap mt-4 sm:max-w-lg">
+                        <label for="hero-email" class="sr-only">Email address</label>
+                        <input id="hero-email" value="" type="email" class="block w-full px-5 py-3 text-base text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary focus-visible:ring-primary flex-1" required placeholder="Enter your email...">
+                        <div>
+                          <button to class="ui-button ui-button-base ui-button-primary" type="submit">Submit</button>
+                        </div>
+                      </form>
+                    </ile-root>
+                    <script></script>
+                    <script type="module" async>
+                      import {
+                        h as t,
+                        c as e
+                      } from "/site/soltivo-q9aly/assets/iles.54b00b61.js";
+                      import {
+                        c as m
+                      } from "/site/soltivo-q9aly/assets/SignupForm.91cf0870.js";
+                      import "/site/soltivo-q9aly/assets/vendor-vue.398eccbf.js";
+                      import "/site/soltivo-q9aly/assets/UiButton.cab407b3.js";
+                      import "/site/soltivo-q9aly/assets/vite.c27b6911.js";
+                      t(e, m, "ile-1", {
+                        name: "hero",
+                        placeholder: "Enter your email...",
+                        buttonLabel: "Submit",
+                        siteId: "bXU6lRW1Snt4VaiC29TA",
+                        class: "mt-4 sm:max-w-lg"
+                      }, {});
+                    </script>
+                  </div>
+                  <!-- Social Proofing -->
+                  <!-- User Review -->
+                </div>
+              </div>
+            </div>
+            <div class="sm:pl-6">
+              <div class="py-12 sm:relative sm:mt-12 sm:py-16 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+                <div class="hidden sm:block">
+                  <div class="absolute inset-y-0 w-screen left-1/2 bg-gray-50 rounded-l-3xl lg:left-80 lg:right-0 lg:w-full"></div>
+                  <svg class="absolute -mr-3 top-8 right-1/2 lg:m-0 lg:left-0" width="404" height="392" fill="none" viewBox="0 0 404 392">
+                    <defs>
+                      <pattern id="837c3e70-6c3a-44e6-8854-cc48c737b659" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                        <rect x="0" y="0" width="4" height="4" class="text-gray-200" fill="currentColor"></rect>
+                      </pattern>
+                    </defs>
+                    <rect width="404" height="392" fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)"></rect>
+                  </svg>
+                </div>
+                <div class="relative pl-4 ml-auto sm:max-w-3xl sm:px-0 lg:h-full lg:max-w-none lg:flex lg:items-center xl:pl-12">
+                  <img class="w-full rounded-l-3xl lg:w-auto 2xl:h-full 2xl:max-w-none 2xl:rounded-3xl" src="https://storage.googleapis.com/mixo-sites/images/file-81c3e12f-ab1f-447c-a662-33a2aa82068a.jpg" alt="Soltivo">
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="relative pt-16 pb-32 overflow-hidden bg-white space-y-24" sectionname="features" id="c56z7b4lob" sectioncomponent="Features" sortorder="1" site-name="Soltivo" site-id="bXU6lRW1Snt4VaiC29TA" site-logo-url="https://storage.googleapis.com/mixo-sites/images/file-e0c6def3-04cb-4dd0-b858-b5d8849b8580.jpeg" site-logo-size="xl" hide-site-name="true">
+            <div>
+              <div class="lg:mx-auto lg:grid lg:grid-cols-2 lg:grid-flow-col-dense lg:gap-6 xl:gap-12 2xl:gap-24">
+                <div class="lg:col-start-2 lg:mx-0 lg:px-0 lg:pr-8 max-w-xl px-4 mx-auto space-y-6 sm:px-6 lg:py-28 xl:py-32 2xl:mx-0">
+                  <!-- Feature -->
+                  <div>
+                    <h2 class="text-4xl font-extrabold tracking-tight text-gray-900">Genera tu propia energía renovable <span class="text-primary">.</span>
+                    </h2>
+                    <p class="mt-4 text-lg leading-relaxed text-gray-500 sm:text-xl">La innovadora tecnología de Soltivo te permite generar tu propia energía renovable para autoconsumo, permitiendote ahorrar en la factura de la luz para que te preocupes de lo que realmente importa. Instalamos paneles fotovoltaicos adaptados a tus necesidades, ultimando hasta el último detalle de tal forma que puedas seguir realizando tu actividad agricola o ganadera como siempre lo has hecho.</p>
+                  </div>
+                  <!-- CTA -->
+                  <div></div>
+                  <!-- Review -->
+                </div>
+                <!-- Image -->
+                <div class="lg:col-start-1 mt-12 sm:mt-16 lg:mt-0">
+                  <div class="pr-4 -sm:ml-48 sm:pr-6 md:-ml-16 lg:px-0 lg:m-0 lg:relative lg:h-full lg:flex lg:items-center">
+                    <img src="https://storage.googleapis.com/mixo-sites/images/file-7ab2901b-a057-4465-8fc0-7cefd76bb998.jpg" class="lg:right-0 rounded-r-2xl w-full 2xl:max-h-[44rem]" alt="Genera tu propia energía renovable">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="lg:mx-auto lg:grid lg:grid-cols-2 lg:grid-flow-col-dense lg:gap-6 xl:gap-12 2xl:gap-24">
+                <div class="lg:mx-auto lg:max-w-3xl xl:pl-12 2xl:pl-20 2xl:justify-self-end max-w-xl px-4 mx-auto space-y-6 sm:px-6 lg:py-28 xl:py-32 2xl:mx-0">
+                  <!-- Feature -->
+                  <div>
+                    <h2 class="text-4xl font-extrabold tracking-tight text-gray-900">Nos adaptamos completamente a las características de tu actividad <span class="text-primary">.</span>
+                    </h2>
+                    <p class="mt-4 text-lg leading-relaxed text-gray-500 sm:text-xl">En Soltivo somos expertos en agricultura y ganadería. A la hora de realizar tu proyecto tendremos en cuenta las necesidades lumínicas, de espacio o riego que tengan tus cultivos. Contamos con expertos y experiencia de tal forma que tu ganado pueda seguir pastando alrededor de la instalación sin ocasionarle ningún problema.</p>
+                  </div>
+                  <!-- CTA -->
+                  <div></div>
+                  <!-- Review -->
+                </div>
+                <!-- Image -->
+                <div class="mt-12 sm:mt-16 lg:mt-0">
+                  <div class="pl-4 sm:-mr-48 sm:-mr-6 sm:pl-6 md:-mr-16 lg:px-0 lg:m-0 lg:relative lg:h-full lg:flex lg:items-center">
+                    <img src="https://storage.googleapis.com/mixo-sites/images/file-8a66ab7d-3fe6-4129-a81a-39409bf09e17.PNG" class="rounded-l-2xl lg:left-0 w-full 2xl:max-h-[44rem]" alt="Nos adaptamos completamente a las características de tu actividad">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="lg:mx-auto lg:grid lg:grid-cols-2 lg:grid-flow-col-dense lg:gap-6 xl:gap-12 2xl:gap-24">
+                <div class="lg:col-start-2 lg:mx-0 lg:px-0 lg:pr-8 max-w-xl px-4 mx-auto space-y-6 sm:px-6 lg:py-28 xl:py-32 2xl:mx-0">
+                  <!-- Feature -->
+                  <div>
+                    <h2 class="text-4xl font-extrabold tracking-tight text-gray-900">Ayuda al medioambiente <span class="text-primary">.</span>
+                    </h2>
+                    <p class="mt-4 text-lg leading-relaxed text-gray-500 sm:text-xl">La sostenibilidad es uno de nuestros pilares. Nos preocupamos por acercar las nuevas tecnologías al mundo rural de tal forma que se lleve a cabo una transición energética justa. Cuidamos del planeta contribuyendo a la reducción de gases de efecto invernadero, apostando por la eficiencia y aprovechando al máximo los recursos naturales disponibles.</p>
+                  </div>
+                  <!-- CTA -->
+                  <div></div>
+                  <!-- Review -->
+                </div>
+                <!-- Image -->
+                <div class="lg:col-start-1 mt-12 sm:mt-16 lg:mt-0">
+                  <div class="pr-4 -sm:ml-48 sm:pr-6 md:-ml-16 lg:px-0 lg:m-0 lg:relative lg:h-full lg:flex lg:items-center">
+                    <img src="https://storage.googleapis.com/mixo-sites/images/file-23ec5b57-1651-4c71-8c24-70a818f66210.png" class="lg:right-0 rounded-r-2xl w-full 2xl:max-h-[44rem]" alt="Ayuda al medioambiente">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="py-12 overflow-hidden bg-primary bg-opacity-80 md:py-20" sectionname="testimonials" id="fvia08k49g" sectioncomponent="Testimonials" sortorder="2" site-name="Soltivo" site-id="bXU6lRW1Snt4VaiC29TA" site-logo-url="https://storage.googleapis.com/mixo-sites/images/file-e0c6def3-04cb-4dd0-b858-b5d8849b8580.jpeg" site-url="https://www.mixo.io/site/soltivo-q9aly" site-logo-size="xl" hide-site-name="true" reselecting-images="false">
+            <div class="relative px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+              <svg class="absolute transform top-full right-full translate-x-1/3 -translate-y-1/4 lg:translate-x-1/2 xl:-translate-y-1/2 rotate-3" width="404" height="404" fill="none" viewBox="0 0 404 404" role="img" aria-labelledby="svg-squares">
+                <title id="svg-squares">squares</title>
+                <defs>
+                  <pattern id="ad119f34-7694-4c31-947f-5c9d249b21f3" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                    <rect x="0" y="0" width="4" height="4" class="text-primary" fill="currentColor"></rect>
+                  </pattern>
+                </defs>
+                <rect width="404" height="404" fill="url(#ad119f34-7694-4c31-947f-5c9d249b21f3)"></rect>
+              </svg>
+              <div class="relative">
+                <blockquote>
+                  <div class="max-w-3xl mx-auto text-xl font-bold leading-7 text-center text-white md:leading-10 md:text-3xl text-shadow-sm">
+                    <p> &quot;El equipo de Soltivo hizo el proceso muy sencillo. Entendieron a la perfección mis necesidades y adaptaron el proyecto a mi cultivo. Recomiendo Soltivo a cualquier agricultor que este buscando un ingreso extra aprovechando los recursos de sus propios terrenos.&quot; </p>
+                  </div>
+                  <footer class="mt-8">
+                    <div class="md:flex md:items-center md:justify-center">
+                      <div class="md:flex-shrink-0">
+                        <img src="https://storage.googleapis.com/mixo-sites/images/file-f3891060-c926-4f1e-b084-602095f19ead.PNG" class="w-10 h-10 mx-auto border-2 border-slate-200 rounded-full shadow-sm object-cover" alt="Testimonial">
+                      </div>
+                      <div class="mt-3 text-center md:mt-0 md:ml-3 md:flex md:items-center text-shadow-sm">
+                        <div class="text-lg font-medium text-white">Francisco Martínez</div>
+                      </div>
+                    </div>
+                  </footer>
+                </blockquote>
+              </div>
+            </div>
+          </section>
+          <section class="px-4 py-12 mx-auto max-w-7xl sm:py-16 sm:px-6 lg:px-8 md:py-24" sectionname="faqs" id="5c64w99gdx" sectioncomponent="Faqs" sortorder="3" site-name="Soltivo" site-id="bXU6lRW1Snt4VaiC29TA" site-logo-url="https://storage.googleapis.com/mixo-sites/images/file-e0c6def3-04cb-4dd0-b858-b5d8849b8580.jpeg" site-url="https://www.mixo.io/site/soltivo-q9aly" site-logo-size="xl" hide-site-name="true" reselecting-images="false">
+            <div class="max-w-3xl mx-auto divide-y-2 divide-gray-200">
+              <h2 class="text-3xl font-extrabold text-center text-gray-900 sm:text-4xl">¿Preguntas?</h2>
+              <dl class="mt-6 space-y-6 divide-y divide-gray-200">
+                <div class="pt-6">
+                  <dt class="text-lg">
+                    <span class="font-medium text-gray-900">¿Cuanto cuesta?</span>
+                  </dt>
+                  <dd class="pr-12 mt-2">
+                    <p class="text-base text-gray-500">Nos adaptamos a las necesidades de cada cliente ofreciendo diferentes métodos de pago.</p>
+                  </dd>
+                </div>
+                <div class="pt-6">
+                  <dt class="text-lg">
+                    <span class="font-medium text-gray-900">¿Para quién es?</span>
+                  </dt>
+                  <dd class="pr-12 mt-2">
+                    <p class="text-base text-gray-500">Agricultores y ganaderos que quieran maximizar sus ingresos aprovechando sus terrenos para generar energía limpia a la vez que siguen realizando su actividad.</p>
+                  </dd>
+                </div>
+                <div class="pt-6">
+                  <dt class="text-lg">
+                    <span class="font-medium text-gray-900">¿Qué nos hace diferentes?</span>
+                  </dt>
+                  <dd class="pr-12 mt-2">
+                    <p class="text-base text-gray-500">Somos la primera empresa española dedicada exclusivamente a la energía fotovoltaica. Somos especialistas en esta tecnología y mantenemos un trato estrecho y constante con nuestros clientes.</p>
+                  </dd>
+                </div>
+              </dl>
+            </div>
+          </section>
+          <section class="relative py-12 sm:py-20 md:py-24 lg:py-32" sectionname="cta" id="b0bwjz7y8l" sectioncomponent="Cta" sortorder="4" site-name="Soltivo" site-logo-url="https://storage.googleapis.com/mixo-sites/images/file-e0c6def3-04cb-4dd0-b858-b5d8849b8580.jpeg" site-url="https://www.mixo.io/site/soltivo-q9aly" site-logo-size="xl" hide-site-name="true" reselecting-images="false" data-v-77b1cd82>
+            <div aria-hidden="true" class="block" data-v-77b1cd82>
+              <div class="absolute inset-y-0 left-0 w-1/2 bg-gray-50 rounded-r-3xl mb-12" data-v-77b1cd82></div>
+              <svg class="absolute -ml-3 top-8 left-1/2" width="404" height="392" fill="none" viewBox="0 0 404 392" data-v-77b1cd82>
+                <defs data-v-77b1cd82>
+                  <pattern id="8228f071-bcee-4ec8-905a-2a059a2cc4fb" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse" data-v-77b1cd82>
+                    <rect x="0" y="0" width="4" height="4" class="text-gray-200" fill="currentColor" data-v-77b1cd82></rect>
+                  </pattern>
+                </defs>
+                <rect width="404" height="392" fill="url(#8228f071-bcee-4ec8-905a-2a059a2cc4fb)" data-v-77b1cd82></rect>
+              </svg>
+            </div>
+            <div class="max-w-md px-4 mx-auto sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8" data-v-77b1cd82 id="formulario">
+              <div class="relative px-6 py-10 overflow-hidden bg-white border-primary border-2 shadow-xl rounded-2xl sm:px-12 sm:py-20" data-v-77b1cd82>
+                <div aria-hidden="true" class="absolute inset-0 -mt-72 sm:-mt-32 md:mt-0" data-v-77b1cd82>
+                  <svg class="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 1463 360" data-v-77b1cd82>
+                    <path class="text-primary/5" fill="currentColor" d="M-82.673 72l1761.849 472.086-134.327 501.315-1761.85-472.086z" data-v-77b1cd82></path>
+                    <path class="text-primary/10" fill="currentColor" d="M-217.088 544.086L1544.761 72l134.327 501.316-1761.849 472.086z" data-v-77b1cd82></path>
+                  </svg>
+                </div>
+                <div class="relative" data-v-77b1cd82>
+    <div class="alert alert-success alert-dismissible fade" id="email_sent" role="alert" style="display: none;">
+      Muchas gracias por tu interes, estamos procesando sus datos y en breve recibirá un informe.
+    </div>
+      <div class="col-12">
+        <form class="needs-validation" novalidate onsubmit="return false;" autocomplete="off">
+          <div class="row g-3">
+            <div class="col-12 show-always field">
+                <label for="tipo" class="form-label">Tipo de explotación:</label>
+                <select id="explotacion" name="tipo" class="form-select use-for-data">
+                    <option value="" selected>Seleccione</option>
+                    <option value="agricultura">Agricultura</option>
+                    <option value="ganaderia">Ganadería</option>
+                </select>
+            </div>
+            <div class="col-12 show-ganaderia field">
+                <label for="tipo" class="form-label">Tipo de ganado:</label>
+                <select id="ganaderia" name="tipo" class="form-select use-for-data">
+                    <option value="" selected>Seleccione</option>
+                    <option value="ovino">Ovino</option>
+                    <option value="bobino">Bobino</option>
+                    <option value="porcino">Porcino</option>
+                    <option value="caprino">Caprino</option>
+                </select>
+            </div>
+            <div class="col-12 show-agricultura field">
+                <label for="tipo" class="form-label">Tipo de agricultura:</label>
+                <select id="agricultura" name="tipo" class="form-select use-for-data">
+                    <option value="" selected>Seleccione</option>
+                    <option value="secano">Secano</option>
+                    <option value="regadio">Regadío</option>
+                </select>
+            </div>
+            <div class="col-12 show-ganaderia-1 show-agricultura-1 field">
+                <label for="tipo" class="form-label">Hectáreas (ha):</label>
+                <input id="metros-cuadrados" name="tipo" class="form-control use-for-data">
+            </div>
+            <hr>
+            <!--<div class="col-12">
+              <label for="username" class="form-label">Username</label>
+              <div class="input-group has-validation">
+                <span class="input-group-text">@</span>
+                <input type="text" class="form-control" id="username" placeholder="Username" required>
+              <div class="invalid-feedback">
+                  Your username is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="email" class="form-label">Email <span class="text-muted">(Optional)</span></label>
+              <input type="email" class="form-control" id="email" placeholder="you@example.com">
+              <div class="invalid-feedback">
+                Please enter a valid email address for shipping updates.
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="address" class="form-label">Address</label>
+              <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+              <div class="invalid-feedback">
+                Please enter your shipping address.
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="address2" class="form-label">Address 2 <span class="text-muted">(Optional)</span></label>
+              <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+            </div>
+
+            <div class="col-md-5">
+              <label for="country" class="form-label">Country</label>
+              <select class="form-select" id="country" required>
+                <option value="">Choose...</option>
+                <option>United States</option>
+              </select>
+              <div class="invalid-feedback">
+                Please select a valid country.
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <label for="state" class="form-label">State</label>
+              <select class="form-select" id="state" required>
+                <option value="">Choose...</option>
+                <option>California</option>
+              </select>
+              <div class="invalid-feedback">
+                Please provide a valid state.
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <label for="zip" class="form-label">Zip</label>
+              <input type="text" class="form-control" id="zip" placeholder="" required>
+              <div class="invalid-feedback">
+                Zip code required.
+              </div>
+            </div>
+          </div>
+
+          <hr class="my-4">
+
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="same-address">
+            <label class="form-check-label" for="same-address">Shipping address is the same as my billing address</label>
+          </div>
+
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="save-info">
+            <label class="form-check-label" for="save-info">Save this information for next time</label>
+          </div>
+
+          <hr class="my-4">
+
+          <h4 class="mb-3">Payment</h4>
+
+          <div class="my-3">
+            <div class="form-check">
+              <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked required>
+              <label class="form-check-label" for="credit">Credit card</label>
+            </div>
+            <div class="form-check">
+              <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required>
+              <label class="form-check-label" for="debit">Debit card</label>
+            </div>
+            <div class="form-check">
+              <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required>
+              <label class="form-check-label" for="paypal">PayPal</label>
+            </div>
+          </div>
+
+          <div class="row gy-3">
+            <div class="col-md-6">
+              <label for="cc-name" class="form-label">Name on card</label>
+              <input type="text" class="form-control" id="cc-name" placeholder="" required>
+              <small class="text-muted">Full name as displayed on card</small>
+              <div class="invalid-feedback">
+                Name on card is required
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="cc-number" class="form-label">Credit card number</label>
+              <input type="text" class="form-control" id="cc-number" placeholder="" required>
+              <div class="invalid-feedback">
+                Credit card number is required
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <label for="cc-expiration" class="form-label">Expiration</label>
+              <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
+              <div class="invalid-feedback">
+                Expiration date required
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <label for="cc-cvv" class="form-label">CVV</label>
+              <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
+              <div class="invalid-feedback">
+                Security code required
+              </div>
+            </div>
+          </div>
+
+          <hr class="my-4">
+
+          <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>-->
+        </form>
+        <h4 class="show-error field">
+            Lo sentimos, en estos momentos las dimensiones de su terreno o el tipo de explotación no es compatible con nuestros proyecto.
+        </h4>
+        <div class="show-success field">
+                  <div style="text-align: center; width: 100%; font-size: 30px; font-weight: bold;">
+                  Inversión:
+                  <span id="price"></span>
+                  <span style="display: block; height: 30px;"></span>
+                  Tiempo de amortización de la instalación:
+                  <span id="time"></span>
+                  </div>
+            <span style="height: 100px; display: block;"></span>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-8">
+            <div class="border border-dark" style="padding: 15px; text-align: right; background-color: white;">
+                <div class="form-group" style="margin-bottom: 15px; text-align: left">
+                  <label for="exampleInputEmail1">
+                    Para obtener un informe detallado, por favor indíquenos su correo electrónico.
+                  </label>
+                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Introducir email">
+                  <small id="emailHelp" class="form-text text-muted">No compartiremos tu dirección de correo con nadie.</small>
+                </div>
+                <button id="submit_email_button" type="submit" class="ui-button ui-button-base ui-button-primary">Enviar</button>
+              </form>
+            </div>
+                </div>
+            </div>
+      </div>
+    </div>
+</div>
+          </section>
+          <section class="px-4 py-12 sm:py-16 sm:px-6 lg:px-8 md:py-24 bg-primary/10" sectionname="note" id="5xkzhsjxgu" sectioncomponent="Note" sortorder="5" site-name="Soltivo" site-id="bXU6lRW1Snt4VaiC29TA" site-logo-url="https://storage.googleapis.com/mixo-sites/images/file-e0c6def3-04cb-4dd0-b858-b5d8849b8580.jpeg" site-url="https://www.mixo.io/site/soltivo-q9aly" site-logo-size="xl" hide-site-name="true" reselecting-images="false" data-v-1ff96999>
+            <h2 class="mb-12 text-4xl font-bold text-center" data-v-1ff96999>Con ganas de aprender <span class="text-primary" data-v-1ff96999>.</span>
+            </h2>
+            <div class="max-w-2xl mx-auto overflow-hidden bg-white rounded-lg shadow" data-v-1ff96999>
+              <div class="px-4 py-5 space-y-4 sm:p-6" data-v-1ff96999>
+                <div class="note-text" data-v-1ff96999>Somos un equipo de jóvenes profesionales con muchas ganas de aportar todos nuestros conocimientos a la sociedad y de seguir formándonos para llegar a ser de las personas más relevantes en el sector energético.</div>
+                <div class="flex items-center mt-6" data-v-1ff96999>
+                  <div data-v-1ff96999>
+                    <p class="text-xl font-bold" data-v-1ff96999>Macarena, Sergio, Gabriela, Diego y Ana</p>
+                    <p data-v-1ff96999>Fundadores</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <footer class="border-t" sectioncomponent="MixoFooter">
+            <div class="mx-auto max-w-7xl overflow-hidden py-16 px-6 sm:py-24 lg:px-8 space-y-8">
+              <!-- Links -->
+              <!-- Socials -->
+              <p class="sm:text-center text-xs leading-5 text-gray-500">© 2023. All rights reserved.</p>
+            </div>
+          </footer>
+          <div class="wrap w-max max-w-xs animate-in fade-in delay-[1000] duration-700" data-v-29401157></div>
+        </div>
+      </div>
+      <ile-root id="ile-2"></ile-root>
+      <script></script>
+      <script type="module" async>
+        import {
+          h as i,
+          c as t
+        } from "/site/soltivo-q9aly/assets/iles.54b00b61.js";
+        import {
+          _ as s
+        } from "/site/soltivo-q9aly/assets/ScriptLoader.5b0e7281.js";
+        import "/site/soltivo-q9aly/assets/vendor-vue.398eccbf.js";
+        import "/site/soltivo-q9aly/assets/UiButton.cab407b3.js";
+        import "/site/soltivo-q9aly/assets/vite.c27b6911.js";
+        i(t, s, "ile-2", function(e, o) {
+          return {
+            siteConfig: {
+              hideSiteName: e,
+              removeBranding: e,
+              siteDescription: "Soltivo - El futuro de la energía agrovoltaica. Únete a la transición energética justa",
+              siteIcon: "https://storage.googleapis.com/mixo-files/logos/soltivo-1686136143912.svg",
+              siteLogoSize: "xl",
+              siteLogoUrl: "https://storage.googleapis.com/mixo-sites/images/file-e0c6def3-04cb-4dd0-b858-b5d8849b8580.jpeg",
+              siteName: "Soltivo",
+              siteSocialImageUrl: "https://storage.googleapis.com/mixo-sites/images/file-a64030d5-32d9-42da-900e-4f1c3b7c6860.PNG",
+              siteTitle: "Soltivo ",
+              theme: {
+                primaryColor: "#479059",
+                secondaryColor: "#d6c79e"
+              },
+              siteUrl: o
+            },
+            siteUrl: o
+          }
+        }(!0, "https://www.mixo.io/site/soltivo-q9aly"), {});
+      </script>
+    </div>
+  </body>
+</html>
